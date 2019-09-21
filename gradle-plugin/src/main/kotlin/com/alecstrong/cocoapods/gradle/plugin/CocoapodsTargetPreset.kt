@@ -30,20 +30,6 @@ class CocoapodsTargetPreset(
       return@mapIndexed target
     }
 
-    val simulator = targets.find { it.konanTarget == IOS_X64 }
-
-    if (simulator != null) {
-      project.tasks.register("${name}Test", CocoapodsTestTask::class.java) { task ->
-        task.dependsOn(simulator.binaries.getExecutable("test", DEBUG).linkTask)
-        task.group = CocoapodsPlugin.GROUP
-        task.description = "Run tests for target '$name' on an iOS Simulator"
-        task.target = simulator
-      }
-    } else {
-      project.logger.warn("No architecture provided for framework to be run on a simulator." +
-          " This means no test task was added.")
-    }
-
     return targets.first()
   }
 
